@@ -32,9 +32,11 @@ def auth_principal(func):
         )
 
         if request.path.startswith('/student'):
-            assertions.assert_true(p.student_id is not None, 'requester should be a student')
+            assertions.assert_true(
+                p.student_id is not None, 'requester should be a student')
         elif request.path.startswith('/teacher'):
-            assertions.assert_true(p.teacher_id is not None, 'requester should be a teacher')
+            assertions.assert_true(
+                p.teacher_id is not None, 'requester should be a teacher')
         else:
             assertions.assert_found(None, 'No such api')
 

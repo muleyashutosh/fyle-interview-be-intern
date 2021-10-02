@@ -89,8 +89,7 @@ def test_grade_assignment_draft_assignment(client, h_teacher_1):
     """
     response = client.post(
         '/teacher/assignments/grade',
-        headers=h_teacher_1
-        , json={
+        headers=h_teacher_1, json={
             "id": 2,
             "grade": "A"
         }
@@ -100,3 +99,25 @@ def test_grade_assignment_draft_assignment(client, h_teacher_1):
     data = response.json
 
     assert data['error'] == 'FyleError'
+
+
+def test_grade_assignment_submitted_assignment(client, h_teacher_1):
+    """
+    success case: submitted case graded successfully
+    """
+    response = client.post(
+        '/teacher/assignments/grade',
+        headers=h_teacher_1,
+        json={
+            "id": 1,
+            "grade": "A"
+        }
+    )
+
+    assert response.status_code == 200
+    data = response.json
+
+    assert data['data']['id'] == 1
+    assert data['data']['grade'] == "A"
+    assert data['data']['state'] == "GRADED"
+    assert data['data']['teacher_id'] == 1
